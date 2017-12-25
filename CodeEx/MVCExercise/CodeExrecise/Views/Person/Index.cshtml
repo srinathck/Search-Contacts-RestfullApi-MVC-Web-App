@@ -1,0 +1,114 @@
+﻿@model IEnumerable<CodeExrecise.Models.Person>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+
+<body>
+
+
+    <div>
+        <h2>Search by Name</h2>
+
+
+        <div>
+            <input type="text" id="fname" placeholder="First Name.."/>
+            <input type="text" id="lname" placeholder="Last Name.." />
+           
+            <input type="submit" id="submitbtn" value="Search" />
+        </div>
+
+        <p id="person" />
+    </div>
+    <script src="~/Scripts/jquery-3.1.1.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#submitbtn').click(function () {
+                var Fname = $('#fname').val();
+                var Lname = $('#lname').val();
+                var reqdata = '?fname=' + Fname + '&lname=' + Lname;
+                var resultelement = $('#resultDiv');
+                var table = $('#tab');
+                var uri = 'http://localhost/RestfulSearch/api/person';
+                var url = uri + reqdata;
+
+                $.ajax({
+                    url: url,
+                    method: 'GET',
+                    data: { q: reqdata },
+                    dataType: 'json',
+                    success: function (data) {
+                        // $('#tab').empty();
+                        var tblHtml = "";
+                        $("#resultDiv").html(tblHtml);
+
+                        tblHtml = " <table class='table' id='tab'>";
+                        tblHtml += "<tr><th>FirstName</th><th>LastName</th><th>Phone</th><th></th></tr>";
+
+                        $.each(data, function (key, item) {
+                            tblHtml += "<tr><td>" + item.FirstName + "</td>";
+                            tblHtml += "<td>" + item.LastName + "</td>";
+                            tblHtml += "<td>" + item.Phone + "</td></tr>";
+
+                        })
+                        $("#resultDiv").html(tblHtml);
+                    },
+                    error: function () { alert('Failed!'); }
+
+                });
+
+            });
+        });
+
+
+        function formatItem(item) {
+            return 'Full Name :' + item.FirstName + ' ' + item.LastName + ', Phone Number:' + item.Phone;
+        }
+
+    </script>
+
+
+    <div id="resultDiv">
+        <p>
+            @*@Html.ActionLink("Create New", "Create")*@
+        </p>
+        <table class="table" id="tab">
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.FirstName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.LastName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Phone)
+                </th>
+                <th></th>
+            </tr>
+
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.FirstName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.LastName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Phone)
+                    </td>
+                    @*<td>
+                        @Html.ActionLink("Edit", "Edit", new { id = item.ID }) |
+                        @Html.ActionLink("Details", "Details", new { id = item.ID }) |
+                        @Html.ActionLink("Delete", "Delete", new { id = item.ID })
+                    </td>*@
+                </tr>
+            }
+
+        </table>
+    </div>
+</body>
