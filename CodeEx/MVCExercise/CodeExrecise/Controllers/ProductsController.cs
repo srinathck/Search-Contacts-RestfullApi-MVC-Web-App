@@ -37,21 +37,21 @@ namespace CodeExrecise.Controllers
 
             if (!string.IsNullOrEmpty(fname) && !string.IsNullOrEmpty(lname))
             {
-                product1 = product1.Where(x => x.Firstname.ToLower().Trim() == fname.ToLower().Trim() && x.Lastname.ToLower().Trim() == lname.ToLower().Trim()).ToList();
+                product1 = product.Where(x => x.Firstname.ToLower().Trim() == fname.ToLower().Trim() && x.Lastname.ToLower().Trim() == lname.ToLower().Trim()).ToList();
             }
             else if (!string.IsNullOrEmpty(fname) && string.IsNullOrEmpty(lname))
             {
-                product1 = product1.Where(x => x.Firstname.ToLower().Trim() == fname.ToLower().Trim()).ToList();
+                product1 = product.Where(x => x.Firstname.ToLower().Trim() == fname.ToLower().Trim()).ToList();
             }
 
             else if (string.IsNullOrEmpty(fname) && !string.IsNullOrEmpty(lname))
             {
-                product1 = product1.Where(x => x.Lastname.ToLower().Trim() == lname.ToLower().Trim()).ToList();
+                product1 = product.Where(x => x.Lastname.ToLower().Trim() == lname.ToLower().Trim()).ToList();
             }
             else
             {
                 // product = products.Where((p) => p.FirstName.ToLower().Trim() == fname.ToLower().Trim() || p.LastName.ToLower().Trim() == lname.ToLower().Trim()).ToList();
-                product1= product1.ToList();
+                product1= product.ToList();
 
             }
 
