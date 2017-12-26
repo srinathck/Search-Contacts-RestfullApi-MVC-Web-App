@@ -9,7 +9,7 @@
         <ul id="products" />
     </div>
     <div>
-        <input type="button" value="Contacts Search" onclick="location.href='@Url.Action("Index", "Person")'" />
+        <input type="button" value="Contacts Search" onclick="onclicky()" />
     </div>
     <div>
         <input placeholder="Firstname.."  type="text" id="fname" />
@@ -21,6 +21,10 @@
 
     <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-2.0.3.min.js"></script>
     <script>
+        function onclicky() {
+            location.href = '/Person/Index';
+        }
+
         var uri = 'api/products/';
 
         $(document).ready(function () {
