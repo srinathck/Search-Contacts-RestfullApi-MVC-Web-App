@@ -1,0 +1,142 @@
+﻿@model IEnumerable<CodeExrecise.Models.Person>
+
+@{
+    ViewBag.Title = "CodeExercise";
+}
+
+<h2>Company Directory</h2>
+
+<body>
+
+    @{var d = System.Configuration.ConfigurationManager.AppSettings["SearchAPIUrl"];}
+    <div class="input-group form-control form-group text-center">
+        <h2>Search People By Name</h2>
+        <input type="text" id="fname" placeholder="First Name.." class="form-control " />
+        <input type="text" id="lname" placeholder="Last Name.." class="form-control" />
+        <button class="btn btn-primary" id="submitbtn" type="submit">Search Directory</button>
+    </div>
+
+    <br />
+
+    <script src="~/Scripts/jquery-3.1.1.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var initfname = "";
+            var initlname = "";
+            var reqdata = '?fname=' + initfname + '&lname=' + initlname;
+            var resultelement = $('#resultDiv');
+            var table = $('#tab');
+
+            var uri = @d
+            //var uri = d; 'http://localhost/RestfulSearch/api/person';
+            var url = uri + reqdata;
+
+            $.ajax({
+                url: url,
+                method: 'GET',
+                data: { q: reqdata },
+                dataType: 'json',
+                success: function (data) {
+                    // $('#tab').empty();
+                    var tblHtml = "";
+                    $("#resultDiv").html(tblHtml);
+
+                    tblHtml = " <table class='table' id='tab'>";
+                    tblHtml += "<tr><th>FirstName</th><th>LastName</th><th>Phone</th><th></th></tr>";
+
+                    $.each(data, function (key, item) {
+                        tblHtml += "<tr><td>" + item.FirstName + "</td>";
+                        tblHtml += "<td>" + item.LastName + "</td>";
+                        tblHtml += "<td>" + item.Phone + "</td></tr>";
+
+                    })
+                    $("#resultDiv").html(tblHtml);
+
+                    $('#submitbtn').click(function () {
+                        var Fname = $('#fname').val();
+                        var Lname = $('#lname').val();
+                        var reqdata = '?fname=' + Fname + '&lname=' + Lname;
+                        var resultelement = $('#resultDiv');
+                        var table = $('#tab');
+                        var uri = 'http://localhost/RestfulSearch/api/person';
+                        var url = uri + reqdata;
+
+                        $.ajax({
+                            url: url,
+                            method: 'GET',
+                            data: { q: reqdata },
+                            dataType: 'json',
+                            success: function (data) {
+                                // $('#tab').empty();
+                                var tblHtml = "";
+                                $("#resultDiv").html(tblHtml);
+
+                                tblHtml = " <table class='table' id='tab'>";
+                                tblHtml += "<tr><th>FirstName</th><th>LastName</th><th>Phone</th><th></th></tr>";
+
+                                $.each(data, function (key, item) {
+                                    tblHtml += "<tr><td>" + item.FirstName + "</td>";
+                                    tblHtml += "<td>" + item.LastName + "</td>";
+                                    tblHtml += "<td>" + item.Phone + "</td></tr>";
+
+                                })
+                                $("#resultDiv").html(tblHtml);
+                            },
+                            error: function () { alert('Failed!'); }
+
+                        });
+                    })
+                }
+
+            });
+        });
+
+
+        function formatItem(item) {
+            return 'Full Name :' + item.FirstName + ' ' + item.LastName + ', Phone Number:' + item.Phone;
+        }
+
+    </script>
+
+
+    <div id="resultDiv">
+        <p>
+            @*@Html.ActionLink("Create New", "Create")*@
+        </p>
+        <table class="table" id="tab">
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.FirstName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.LastName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Phone)
+                </th>
+                <th></th>
+            </tr>
+
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.FirstName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.LastName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Phone)
+                    </td>
+                    @*<td>
+                            @Html.ActionLink("Edit", "Edit", new { id = item.ID }) |
+                            @Html.ActionLink("Details", "Details", new { id = item.ID }) |
+                            @Html.ActionLink("Delete", "Delete", new { id = item.ID })
+                        </td>*@
+                </tr>
+            }
+
+        </table>
+    </div>
+</body>
