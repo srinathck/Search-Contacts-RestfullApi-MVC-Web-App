@@ -58,7 +58,7 @@ namespace SearchRestful.Controllers
             {
                 return NotFound();
             }
-            return Ok(person);
+            return Json(person);
         }
 
     }
