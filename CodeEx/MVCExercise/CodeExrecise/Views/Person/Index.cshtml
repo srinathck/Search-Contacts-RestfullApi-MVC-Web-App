@@ -1,4 +1,5 @@
-﻿@model IEnumerable<CodeExrecise.Models.Person>
+﻿@using System.Configuration;
+@model IEnumerable<CodeExrecise.Models.Person>
 
 @{
     ViewBag.Title = "Index";
@@ -20,7 +21,7 @@
            
             <input type="submit" id="submitbtn" value="Search" />
         </div>
-
+        @{string d = ConfigurationManager.AppSettings["SearchAPIUrl"];}
         <p id="person" />
     </div>
     <script src="~/Scripts/jquery-3.1.1.js"></script>
@@ -32,11 +33,9 @@
                 var reqdata = '?fname=' + Fname + '&lname=' + Lname;
                 var resultelement = $('#resultDiv');
                 var table = $('#tab');
-                var uri = 'http://localhost/RestfulSearch/api/person';
-                var url = uri + reqdata;
 
                 $.ajax({
-                    url: url,
+                    url: '@d' + reqdata,
                     method: 'GET',
                     data: { q: reqdata },
                     dataType: 'json',

@@ -68,6 +68,7 @@ namespace CodeExrecise.Controllers
         //    var person = persons.SingleOrDefault(x => x.ID == id);
         //    return View(person);
         //}
+        //'http://localhost/RestfulSearch/api/person';
 
         //[System.Web.Mvc.HttpPost]
         //public ActionResult Edit(Person p)
